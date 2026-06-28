@@ -1,4 +1,3 @@
-// screens/AddReviewScreen.js
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator, Image } from 'react-native';
 // Added getDocs, query, and where to prevent duplicate records
@@ -6,11 +5,11 @@ import { collection, doc, addDoc, updateDoc, serverTimestamp, getDocs, query, wh
 import { db } from '../firebaseConfig';
 
 export default function AddReviewScreen({ route, navigation, userSession }) {
-  // 1. Check if we passed a review to modify from the HomeScreen selection
+  // determine if we are in edit mode or new review mode
   const reviewToEdit = route?.params?.reviewToEdit;
   const isEditing = !!reviewToEdit;
 
-  // 2. Fallback cleanly to your standard selectedAlbum structure or parameters if editing
+  // prefill the album details if we are editing
   const selectedAlbum = isEditing
     ? { name: reviewToEdit.albumName, artist: reviewToEdit.artist, image: reviewToEdit.coverArtUrl }
     : (route?.params?.selectedAlbum || {
@@ -19,18 +18,16 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
       image: "https://via.placeholder.com/150"
     });
 
-  // 3. Initialize your states conditionally depending on whether you are editing or logging fresh
+  // initialize states
   const [rating, setRating] = useState(isEditing ? reviewToEdit.userRating : 0);
   const [notes, setNotes] = useState(isEditing ? reviewToEdit.userNotes : '');
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ text: '', isError: false });
   const [source, setSource] = useState(isEditing ? (reviewToEdit.source || 'Digital') : 'Digital');
-  
   const sourceOptions = ['Local Shop', 'Bandcamp', 'Merch Table', 'Digital'];
-
-  // Array used to map our 5 custom radio options
   const starOptions = [1, 2, 3, 4, 5];
 
+  // Function to save or update the review to Firestore
   const saveReview = async () => {
     setStatusMessage({ text: '', isError: false });
 
@@ -45,7 +42,7 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
       const currentUsername = userSession?.username || "music_fan";
 
       if (isEditing) {
-        // --- MODE A: DIRECT EDITING FROM HOMESCREEN ---
+        // edit
         const docRef = doc(db, "reviews", reviewToEdit.id);
         await updateDoc(docRef, {
           username: currentUsername, // Update username if it changed or wasn't there
@@ -57,7 +54,7 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
 
         setStatusMessage({ text: "Modifications saved to your B-Side tracklist!", isError: false });
       } else {
-        // --- MODE B: FRESH LOG / SEARCH TRACKING (PREVENTING DUPLICATES) ---
+        // new review, but check first for duplicate
 
         // Query to check if this user has already logged this specific album
         const reviewsRef = collection(db, "reviews");
@@ -71,7 +68,7 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
         const querySnapshot = await getDocs(duplicateQuery);
 
         if (!querySnapshot.empty) {
-          // Match found! Overwrite the existing review instead of appending a duplicate
+          // if match found, overwrite the existing record with new one
           const existingDocId = querySnapshot.docs[0].id;
           const docRef = doc(db, "reviews", existingDocId);
 
@@ -85,16 +82,16 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
 
           setStatusMessage({ text: "Existing log updated with your new thoughts!", isError: false });
         } else {
-          // No match found. Safe to generate a brand new record
+          // No match found. generate a new review
           await addDoc(collection(db, "reviews"), {
             userId: currentUserId,
-            username: currentUsername, // Tied username to document properties for global feed tracking
+            username: currentUsername, // add username for community feed
             albumName: selectedAlbum.name,
             artist: selectedAlbum.artist,
             coverArtUrl: selectedAlbum.image,
             userRating: Number(rating),
             userNotes: notes.trim(),
-            source: source,            // Save acquisition context for fresh logs
+            source: source,          
             createdAt: serverTimestamp()
           });
 
@@ -125,11 +122,11 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
       <Text style={styles.title}>{selectedAlbum.name}</Text>
       <Text style={styles.subtitle}>{selectedAlbum.artist}</Text>
 
-      {/* Custom Component Radio Selection Bar */}
+      {/* radio selection */}
       <Text style={styles.radioLabel}>Your Score:</Text>
       <View style={styles.radioContainer}>
         {starOptions.map((num) => {
-          const isSelected = num <= rating; // Highlights up to the active selection rank
+          const isSelected = num <= rating; // highlight all stars up to selected one
           return (
             <TouchableOpacity
               key={num}
@@ -145,7 +142,6 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
         })}
       </View>
 
-      {/* Entrepreneurial Niche Feature: Acquisition Source Selector */}
       <Text style={styles.radioLabel}>Where did you dig this up?</Text>
       <View style={styles.sourceContainer}>
         {sourceOptions.map((opt) => {

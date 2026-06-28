@@ -1,4 +1,3 @@
-// screens/RegisterScreen.js
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { collection, addDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
@@ -9,8 +8,6 @@ export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  // state for loading and status message
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ text: '', isError: false });
 

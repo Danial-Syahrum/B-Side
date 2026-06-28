@@ -1,11 +1,9 @@
-// screens/AboutScreen.js
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 export default function AboutScreen() {
   return (
     <ScrollView style={styles.outerContainer} contentContainerStyle={styles.container}>
-      {/* App Branding */}
       <View style={styles.headerBlock}>
         <Text style={styles.title}>B-Side</Text>
         <Text style={styles.versionBadge}>v1.0.0</Text>
@@ -13,7 +11,6 @@ export default function AboutScreen() {
 
       <View style={styles.divider} />
 
-      {/* 1. System Usage */}
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>📱 System Usage</Text>
         <Text style={styles.sectionBody}>
@@ -21,7 +18,6 @@ export default function AboutScreen() {
         </Text>
       </View>
 
-      {/* 2. Entrepreneurial Value */}
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>💼 Entrepreneurial Value</Text>
         <Text style={styles.sectionBody}>
@@ -29,7 +25,6 @@ export default function AboutScreen() {
         </Text>
       </View>
 
-      {/* 3. API Credit */}
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>🌐 Data Attribution</Text>
         <Text style={styles.sectionBody}>
@@ -38,8 +33,7 @@ export default function AboutScreen() {
       </View>
 
       <View style={styles.divider} />
-
-      {/* 4. Developer Credit */}
+s
       <View style={styles.devBlock}>
         <Text style={styles.devLabel}>Developed By</Text>
         <Text style={styles.devName}>Samsul Danial</Text>

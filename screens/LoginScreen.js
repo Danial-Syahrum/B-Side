@@ -1,4 +1,3 @@
-// screens/LoginScreen.js
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator, Image } from 'react-native';
 import { collection, query, where, getDocs } from 'firebase/firestore';
@@ -8,8 +7,6 @@ export default function LoginScreen({ navigation, setUserSession }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  
-  // local error message
   const [statusMessage, setStatusMessage] = useState({ text: '', isError: false });
 
   const handleLogin = async () => {
@@ -60,7 +57,6 @@ export default function LoginScreen({ navigation, setUserSession }) {
 
   return (
     <View style={styles.container}>
-      {/* Brand Identity Logo Render */}
       <Image 
         source={require('../assets/bside.png')} 
         style={styles.logo} 
@@ -72,7 +68,7 @@ export default function LoginScreen({ navigation, setUserSession }) {
       <TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize="none" placeholderTextColor="#666"/>
       <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} placeholderTextColor="#666"/>
       
-      {/* Dynamic Feedback Notification Text */}
+      {/* Dynamic status text */}
       {statusMessage.text ? (
         <Text style={[styles.statusText, statusMessage.isError ? styles.errorText : styles.successText]}>
           {statusMessage.text}

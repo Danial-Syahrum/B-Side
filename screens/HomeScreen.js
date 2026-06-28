@@ -1,17 +1,16 @@
-// screens/HomeScreen.js
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { collection, query, where, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
-// Destructured 'navigation' out of the incoming screen props
+
 export default function HomeScreen({ userSession, setUserSession, navigation }) {
+  //State for reviews, loading, and star filter selection
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  // State to handle star filter selection (null means "All")
   const [selectedStarFilter, setSelectedStarFilter] = useState(null);
 
+  // fetch session user's reviews from Firestore and whenever userSession changes
   useEffect(() => {
     const targetUserId = userSession?.docId || userSession?.uid;
     
@@ -20,16 +19,20 @@ export default function HomeScreen({ userSession, setUserSession, navigation }) 
       return;
     }
 
+    //query to fetch reviews for current userid
     const reviewsRef = collection(db, "reviews");
     const q = query(reviewsRef, where("userId", "==", targetUserId));
 
+    // listen to real-time update from firestore review collection
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const fetchedReviews = [];
+
+      //loop through snapshot to display each review
       snapshot.forEach((doc) => {
         fetchedReviews.push({ id: doc.id, ...doc.data() });
       });
 
-      // Sort client-side: Newest first
+      // sort newest first
       fetchedReviews.sort((a, b) => {
         const dateA = a.createdAt?.seconds || 0;
         const dateB = b.createdAt?.seconds || 0;
@@ -42,10 +45,11 @@ export default function HomeScreen({ userSession, setUserSession, navigation }) 
       console.error("Firestore listening error: ", error);
       setLoading(false);
     });
-
+    // unsubscribe from listener when usersession changes
     return () => unsubscribe();
   }, [userSession]);
 
+  //review deletion
   const handleDeleteReview = async (reviewId, albumName) => {
     const confirmed = window.confirm(`Are you sure you want to remove your review for "${albumName}"?`);
     if (!confirmed) return;
@@ -57,11 +61,11 @@ export default function HomeScreen({ userSession, setUserSession, navigation }) 
     }
   };
 
+  //render stars
   const renderStars = (rating) => {
     return "★".repeat(rating) + "☆".repeat(5 - rating);
   };
 
-  // Filter the reviews locally based on selected star count
   const filteredReviews = selectedStarFilter 
     ? reviews.filter(item => Number(item.userRating) === selectedStarFilter)
     : reviews;
@@ -80,7 +84,6 @@ export default function HomeScreen({ userSession, setUserSession, navigation }) 
 
       <Text style={styles.sectionTitle}>Your Tracklist Log ({reviews.length})</Text>
 
-      {/* Horizontal Filter Bar Component Container */}
       <View style={styles.filterOuterWrapper}>
         <ScrollView 
           horizontal 
@@ -133,7 +136,7 @@ export default function HomeScreen({ userSession, setUserSession, navigation }) 
           data={filteredReviews}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            /* Transformed the static card container into an active button link */
+            /* make the review card pressable to edit */
             <TouchableOpacity 
               style={styles.reviewCard}
               activeOpacity={0.8}
@@ -145,14 +148,13 @@ export default function HomeScreen({ userSession, setUserSession, navigation }) 
                 <Text style={styles.artistName} numberOfLines={1}>{item.artist}</Text>
                 <Text style={styles.starRating}>{renderStars(item.userRating)}</Text>
                 
-                {/* Entrepreneurial Context Indicator Badge */}
                 {item.source && (
                   <Text style={styles.sourceTag}>
                     📍 Source: {item.source}
                   </Text>
                 )}
                 
-                {/* Removed numberOfLines here so the complete text expands dynamically */}
+                {/* flex prop for longer notes */}
                 <Text style={styles.userNotes}>{item.userNotes}</Text>
               </View>
               

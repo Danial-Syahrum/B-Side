@@ -19,14 +19,15 @@ export default function SearchScreen({ navigation }) {
     const url = `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${encodeURIComponent(queryText)}&api_key=${LASTFM_API_KEY}&format=json`;
 
     try {
+      //fetch the data from API and store it in a variable
       const response = await fetch(url);
       const data = await response.json();
 
-      // Navigate down the JSON tree structure returned by Last.fm
+      // navigate the json structure to find the album matches and map them into a cleaner structure
       if (data.results && data.results.albummatches) {
         const matches = data.results.albummatches.album;
         
-        // Map the data into a cleaner structure for our interface state
+        // Map the matches into a variable with cleaner structure
         const formattedAlbums = matches.map((album) => ({
           id: `${album.name}-${album.artist}`, // unique string fallback identifier
           name: album.name,
@@ -48,9 +49,9 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Find Music</Text>
+      <Text style={styles.header}>Search Discography</Text>
       
-      {/* Search Bar Input Layout Wrapper */}
+      {/* Search bar input */}
       <View style={styles.searchRow}>
         <TextInput
           style={styles.input}
@@ -65,11 +66,11 @@ export default function SearchScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Dynamic Status Feedback Indicators */}
+      {/* Dynamic status feedback */}
       {loading && <ActivityIndicator size="large" color="#1DB954" style={{ marginTop: 20 }} />}
       {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}
 
-      {/* Album List Results Tree */}
+      {/* Album list result tree */}
       <FlatList
         data={albums}
         keyExtractor={(item) => item.id}
@@ -77,7 +78,7 @@ export default function SearchScreen({ navigation }) {
           <TouchableOpacity 
             style={styles.albumItem}
             onPress={() => {
-              // Pressing an album takes the user to AddReviewScreen, passing along the metadata!
+              // pressing an album navigates to addreviewscreen alongside metadata of the album
               navigation.navigate('AddReviewScreen', { selectedAlbum: item });
             }}
           >

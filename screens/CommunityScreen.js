@@ -1,4 +1,3 @@
-// screens/CommunityScreen.js
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { collection, query, onSnapshot } from 'firebase/firestore';
@@ -9,17 +8,21 @@ export default function CommunityScreen() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        //fetch all reviews for global feed
         const reviewsRef = collection(db, "reviews");
         // Streams the entire collection globally
         const q = query(reviewsRef);
 
+        //listen to real-time updates from Firestore
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const fetchedReviews = [];
+
+            //loop through snapshot to display each review
             snapshot.forEach((doc) => {
                 fetchedReviews.push({ id: doc.id, ...doc.data() });
             });
 
-            // Sort globally: Newest shares at the top
+            // sort from newest to oldest based on createdAt
             fetchedReviews.sort((a, b) => {
                 const dateA = a.createdAt?.seconds || 0;
                 const dateB = b.createdAt?.seconds || 0;
@@ -33,6 +36,7 @@ export default function CommunityScreen() {
             setLoading(false);
         });
 
+        //unsubscribe from listener when user leaves the screen
         return () => unsubscribe();
     }, []);
 
@@ -64,7 +68,6 @@ export default function CommunityScreen() {
                                 <View style={styles.metaRow}>
                                     <Text style={styles.userTag}>🎧 @{item.username || "music_fan"}</Text>
 
-                                    {/* Global Market Support Tag */}
                                     {item.source && (
                                         <View style={{ backgroundColor: '#222', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4 }}>
                                             <Text style={{ color: '#aaa', fontSize: 10, fontWeight: '700' }}>📍 {item.source}</Text>

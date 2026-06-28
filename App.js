@@ -16,7 +16,6 @@ import CommunityScreen from './screens/CommunityScreen';
 const RootStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Tiny, uniform header logo component
 function HeaderLogo() {
   return (
     <Image 
@@ -31,10 +30,10 @@ function AppTabs({ userSession, setUserSession }) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        // Force the classic stacked positioning (Icon on top, label below)
+        //position the label below the icon
         tabBarLabelPosition: 'below-icon',
 
-        // Custom clean vector icons built using pure box-model layouts
+        // Icon for the bar
         tabBarIcon: ({ color }) => {
           if (route.name === 'Home') {
             return (
@@ -45,7 +44,6 @@ function AppTabs({ userSession, setUserSession }) {
           } else if (route.name === 'Community') {
             return (
               <View style={[styles.iconCircle, { borderColor: color, justifyContent: 'center', alignItems: 'center' }]}>
-                {/* Visual grid overlay inside the circle to replicate a global earth wireframe */}
                 <View style={[styles.iconEarthLat, { borderColor: color }]} />
                 <View style={[styles.iconEarthLng, { borderColor: color }]} />
               </View>
@@ -66,7 +64,7 @@ function AppTabs({ userSession, setUserSession }) {
           return null;
         },
 
-        // Tall, balanced layout container to accommodate both layers without clipping text
+        //tab bar styling
         tabBarStyle: {
           backgroundColor: '#1e1e1e',
           borderTopColor: '#333',
@@ -75,19 +73,19 @@ function AppTabs({ userSession, setUserSession }) {
           paddingBottom: 0
         },
 
-        // Label text placement styling
+        // tab bar label styling
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',
           marginTop: 4
         },
 
-        tabBarActiveTintColor: '#1DB954', // Active selection green
-        tabBarInactiveTintColor: '#888',    // Default unselected grey
+        tabBarActiveTintColor: '#1DB954', 
+        tabBarInactiveTintColor: '#888',  
         headerStyle: { backgroundColor: '#121212', borderBottomColor: '#333' },
         headerTitleStyle: { color: '#fff', fontWeight: 'bold' },
         
-        // Render custom app identity logo on the top right of the navigation header bar
+        // render logo on right header
         headerRight: () => <HeaderLogo />,
       })}
     >
@@ -121,7 +119,6 @@ export default function App() {
                 headerStyle: { backgroundColor: '#121212', borderBottomColor: '#333' },
                 headerTitleStyle: { color: '#fff' },
                 headerTintColor: '#1DB954',
-                // Keeps header presentation unified across deeper interaction stacks
                 headerRight: () => <HeaderLogo />,
               }}
             >
@@ -142,21 +139,13 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  // Shared Vector Icon Component Dimensions
   iconBox: { width: 18, height: 16, borderWidth: 2, borderRadius: 3, justifyContent: 'center', alignItems: 'center' },
   iconInnerBar: { width: 10, height: 2, borderRadius: 1 },
-
   iconCircle: { width: 16, height: 16, borderWidth: 2, borderRadius: 8, justifyContent: 'center', alignItems: 'center', position: 'relative' },
   iconHandle: { width: 2, height: 5, position: 'absolute', bottom: -4, right: -3, transform: [{ rotate: '-45deg' }] },
   iconDot: { width: 4, height: 4, borderRadius: 2 },
-
-  // Pure CSS Earth Lines
   iconEarthLat: { width: 12, height: 6, borderWidth: 1, borderLeftWidth: 0, borderRightWidth: 0, borderRadius: 3, position: 'absolute' },
   iconEarthLng: { width: 6, height: 12, borderWidth: 1, borderTopWidth: 0, borderBottomWidth: 0, borderRadius: 3, position: 'absolute' },
-
-  // Header Right App Logo Positioning
   headerLogoImage: { width: 28, height: 28, marginRight: 16 },
-
-  // App Bootup Loading Viewport Screen
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#121212' }
 });
