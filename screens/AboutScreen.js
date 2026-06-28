@@ -33,7 +33,6 @@ export default function AboutScreen() {
       </View>
 
       <View style={styles.divider} />
-s
       <View style={styles.devBlock}>
         <Text style={styles.devLabel}>Developed By</Text>
         <Text style={styles.devName}>Samsul Danial</Text>
