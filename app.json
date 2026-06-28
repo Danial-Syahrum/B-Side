@@ -4,7 +4,7 @@
     "slug": "B-Side",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/bside.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
@@ -18,7 +18,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/bside.png"
     }
   }
 }
