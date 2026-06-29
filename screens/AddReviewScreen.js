@@ -31,8 +31,8 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
   const saveReview = async () => {
     setStatusMessage({ text: '', isError: false });
 
-    if (!rating || !notes.trim()) {
-      setStatusMessage({ text: "Please provide a star rating and review notes.", isError: true });
+    if (!rating) {
+      setStatusMessage({ text: "Please select a rating before saving.", isError: true });
       return;
     }
 

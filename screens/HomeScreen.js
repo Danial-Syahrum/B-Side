@@ -155,7 +155,9 @@ export default function HomeScreen({ userSession, setUserSession, navigation }) 
                 )}
                 
                 {/* flex prop for longer notes */}
-                <Text style={styles.userNotes}>{item.userNotes}</Text>
+                <Text style={[styles.userNotes, !item.userNotes.trim() && { fontStyle: 'italic', color: '#555' }]}>
+                  {item.userNotes.trim() || "Rated without notes."}
+                </Text>
               </View>
               
               <TouchableOpacity 

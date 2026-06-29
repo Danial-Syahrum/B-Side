@@ -79,7 +79,9 @@ export default function CommunityScreen() {
                                 <Text style={styles.artistName} numberOfLines={1}>{item.artist}</Text>
 
                                 <Text style={styles.starRating}>{renderStars(item.userRating)}</Text>
-                                <Text style={styles.userNotes}>{item.userNotes}</Text>
+                                <Text style={[styles.userNotes, !item.userNotes.trim() && { fontStyle: 'italic', color: '#555' }]}>
+                                    {item.userNotes.trim() || "Rated without notes."}
+                                </Text>
                             </View>
                         </View>
                     )}
