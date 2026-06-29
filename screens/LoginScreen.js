@@ -64,6 +64,7 @@ export default function LoginScreen({ navigation, setUserSession }) {
       />
 
       <Text style={styles.title}>B-Side</Text>
+      <Text style={{ color: '#888', textAlign: 'center', marginBottom: 30 }}>Discover and share your favorite music reviews.</Text>
       
       <TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize="none" placeholderTextColor="#666"/>
       <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} placeholderTextColor="#666"/>
