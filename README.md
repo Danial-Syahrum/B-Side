@@ -7,12 +7,12 @@ A real-time mobile tracking platform built to help music enthusiasts catalog the
 
 
 
-## Authors
+## ✍️ Authors
 
 - [@Danial-Syahrum](https://www.github.com/Danial-Syahrum)
 
 
-## Quick Start
+## ▶️ Quick Start
 Recommended way to use B-Side is through official instance:
 
 - [B-Side](https://bsi-de.vercel.app)
