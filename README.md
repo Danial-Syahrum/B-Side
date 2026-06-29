@@ -7,7 +7,7 @@ A real-time mobile tracking platform built to help music enthusiasts catalog the
 
 
 
-## ✍️ Authors
+## ✍️ Author
 
 - [@Danial-Syahrum](https://www.github.com/Danial-Syahrum)
 
