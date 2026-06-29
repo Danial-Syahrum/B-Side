@@ -56,6 +56,8 @@ But beyond the grading rubric, this project comes from a place of genuine person
 
 ## Special Thanks
 
-First of all, I would like to thank Dr Aisyah for guiding and teaching us for this semester.
+I would like to thank Dr Aisyah for guiding and teaching us for this semester.
+
+Thank you to my friends and families for giving me their endless encouragement and supports
 
 Thank you to [Last.fm](https://last.fm) for powering the live catalog, data searches and dynamic album artwork.
