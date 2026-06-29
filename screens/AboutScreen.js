@@ -35,10 +35,10 @@ export default function AboutScreen() {
       <View style={styles.divider} />
       <View style={styles.devBlock}>
         <Text style={styles.devLabel}>Developed By</Text>
-        <Text style={styles.devName}>Samsul Danial</Text>
+        <Text style={styles.devName}>Danial Syahrum</Text>
       </View>
 
-      <Text style={styles.footerText}>© 2026 B-Side by Samsul Danial.</Text>
+      <Text style={styles.footerText}>© 2026 B-Side by Danial Syahrum.</Text>
     </ScrollView>
   );
 }
