@@ -25,7 +25,7 @@ B-Side is built specifically for physical music collectors who want to catalog t
 No manual typing required to find your music. Simply search for any record, CD, or cassette tape, and the app instantly pulls high-fidelity album artwork, tracklists, and release details directly into your interface.
 
 ### ⏱️ "Quick-Star" Logging (Ghost Reviews)
-We know writing long reviews can feel like a chore when you just want to log a spin. B-Side supports frictionless logging, you can log an album with a quick star rating in less than 2 seconds, completely skipping the text commentary. The community feed automatically handles it with a clean, elegant placeholder.
+Writing long reviews can feel like a chore when you just want to log a spin. B-Side supports frictionless logging, you can log an album with a quick star rating in less than 2 seconds, completely skipping the text commentary. The community feed automatically handles it with a clean, elegant placeholder.
 
 ### 🛒 Track Your Acquisition Channels
 Keep tabs on where your music collection actually comes from. Tag each album log by its exact purchase origin:
@@ -56,7 +56,7 @@ But beyond the grading rubric, this project comes from a place of genuine person
 
 ## Special Thanks
 
-I would like to thank Dr Aisyah for guiding and teaching us for this semester.
+I would like to thank Dr Aisyah for guiding and teaching me for this semester.
 
 Thank you to my friends and families for giving me their endless encouragement and supports
 
