@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Linking, TouchableOpacity} from 'react-native';
 
 export default function AboutScreen() {
   return (
@@ -7,6 +7,12 @@ export default function AboutScreen() {
       <View style={styles.headerBlock}>
         <Text style={styles.title}>B-Side</Text>
         <Text style={styles.versionBadge}>v1.0.0</Text>
+        <TouchableOpacity 
+          onPress={() => Linking.openURL('https://github.com/Danial-Syahrum/B-Side')}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.githubLink}>/Danial-Syahrum/B-Side</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.divider} />
@@ -46,21 +52,17 @@ export default function AboutScreen() {
 const styles = StyleSheet.create({
   outerContainer: { flex: 1, backgroundColor: '#121212' },
   container: { padding: 24, paddingBottom: 40 },
-  
   headerBlock: { alignItems: 'center', width: '100%', marginTop: 10 },
   title: { fontSize: 32, fontWeight: '900', color: '#fff', letterSpacing: 1 },
   versionBadge: { fontSize: 13, color: '#1DB954', fontWeight: '700', marginTop: 4 },
-  
   divider: { height: 1, backgroundColor: '#222', width: '100%', marginVertical: 20 },
-  
   section: { width: '100%', marginBottom: 20 },
   sectionHeader: { fontSize: 16, fontWeight: 'bold', color: '#fff', marginBottom: 8 },
   sectionBody: { fontSize: 13, color: '#aaa', lineHeight: 20 },
   highlightText: { color: '#1DB954', fontWeight: '600' },
-  
   devBlock: { width: '100%', alignItems: 'center', marginVertical: 10 },
   devLabel: { fontSize: 12, color: '#666', textTransform: 'uppercase', fontWeight: '700', letterSpacing: 1 },
   devName: { fontSize: 18, fontWeight: 'bold', color: '#fff', marginTop: 4 },
-
-  footerText: { color: '#444', fontSize: 11, fontWeight: '600', marginTop: 30, textAlign: 'center', width: '100%' }
+  footerText: { color: '#444', fontSize: 11, fontWeight: '600', marginTop: 30, textAlign: 'center', width: '100%' },
+  githubLink: { fontSize: 13, color: '#888', textDecorationLine: 'underline', marginTop: 6, fontWeight: '500' },
 });
