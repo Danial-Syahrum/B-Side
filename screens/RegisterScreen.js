@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator, ScrollView } from 'react-native';
 import { collection, addDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
@@ -17,6 +17,19 @@ export default function RegisterScreen({ navigation }) {
 
     if (!fullName || !username || !email || !password) {
       setStatusMessage({ text: "Please fill out all fields.", isError: true });
+      return;
+    }
+
+    if (!email.includes('@')) {
+      setStatusMessage({ text: "Please enter a valid email address containing '@'.", isError: true });
+      return;
+    }
+
+    if (password.length < 6) {
+      setStatusMessage({ 
+        text: "Password is too weak. It must be at least 6 characters long.", 
+        isError: true 
+      });
       return;
     }
 
@@ -41,7 +54,6 @@ export default function RegisterScreen({ navigation }) {
         createdAt: serverTimestamp()
       });
 
-      
       setStatusMessage({ text: "Account created successfully! Redirecting...", isError: false });
       
       // delay redirect to login to allow user to read the success message
@@ -57,34 +69,40 @@ export default function RegisterScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
-      
-      <TextInput style={styles.input} placeholder="Full Name" value={fullName} onChangeText={setFullName} placeholderTextColor="#666"/>
-      <TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize="none" placeholderTextColor="#666"/>
-      <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" placeholderTextColor="#666"/>
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} placeholderTextColor="#666"/>
-      
-      {/* display status message if it exists */}
-      {statusMessage.text ? (
-        <Text style={[styles.statusText, statusMessage.isError ? styles.errorText : styles.successText]}>
-          {statusMessage.text}
-        </Text>
-      ) : null}
+    <ScrollView style={styles.outerContainer} contentContainerStyle={styles.container}>
+      <View style={styles.mainContent}>
+        <Text style={styles.title}>Register</Text>
+        
+        <TextInput style={styles.input} placeholder="Full Name" value={fullName} onChangeText={setFullName} placeholderTextColor="#666"/>
+        <TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize="none" placeholderTextColor="#666"/>
+        <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" placeholderTextColor="#666"/>
+        <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} placeholderTextColor="#666"/>
+        
+        {/* display status message if it exists */}
+        {statusMessage.text ? (
+          <Text style={[styles.statusText, statusMessage.isError ? styles.errorText : styles.successText]}>
+            {statusMessage.text}
+          </Text>
+        ) : null}
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
-        {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Sign Up</Text>}
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
+          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Sign Up</Text>}
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.linkText}>Already have an account? Sign In</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.linkText}>Already have an account? Sign In</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.footerText}>© 2026 B-Side by Danial Syahrum.</Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#121212' },
+  outerContainer: { flex: 1, backgroundColor: '#121212' },
+  container: { flexGrow: 1, padding: 24, justifyContent: 'space-between', paddingBottom: 20 },
+  mainContent: { flex: 1, justifyContent: 'center' },
   title: { fontSize: 32, fontWeight: 'bold', color: '#fff', textAlign: 'center', marginBottom: 20 },
   input: { backgroundColor: '#1e1e1e', color: '#fff', padding: 15, borderRadius: 8, marginBottom: 15 },
   statusText: { textAlign: 'center', fontSize: 14, fontWeight: '600', marginBottom: 15, padding: 5 },
@@ -92,5 +110,6 @@ const styles = StyleSheet.create({
   errorText: { color: '#ff4444' }, 
   button: { backgroundColor: '#1DB954', padding: 15, borderRadius: 8, alignItems: 'center', height: 50, justifyContent: 'center' },
   buttonText: { color: '#fff', fontWeight: 'bold' },
-  linkText: { color: '#888', textAlign: 'center', marginTop: 20 }
+  linkText: { color: '#888', textAlign: 'center', marginTop: 20 },
+  footerText: { color: '#444', fontSize: 11, fontWeight: '600', marginTop: 30, textAlign: 'center', width: '100%' }
 });

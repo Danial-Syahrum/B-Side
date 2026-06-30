@@ -91,7 +91,7 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
             coverArtUrl: selectedAlbum.image,
             userRating: Number(rating),
             userNotes: notes.trim(),
-            source: source,          
+            source: source,
             createdAt: serverTimestamp()
           });
 
@@ -100,7 +100,7 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
       }
 
       setTimeout(() => {
-        navigation.navigate("Home");
+        navigation.navigate("MainTabs");
       }, 1500);
 
     } catch (error) {
@@ -168,7 +168,14 @@ export default function AddReviewScreen({ route, navigation, userSession }) {
         value={notes}
         onChangeText={setNotes}
         placeholderTextColor="#666"
+        maxLength={1000}
       />
+
+      <View style={styles.counterContainer}>
+        <Text style={[styles.counterText, notes.length === 1000 && { color: '#ff4444' }]}>
+          {notes.length} / 1000
+        </Text>
+      </View>
 
       {statusMessage.text ? (
         <Text style={[styles.statusText, statusMessage.isError ? styles.errorText : styles.successText]}>
@@ -199,8 +206,6 @@ const styles = StyleSheet.create({
   starText: { fontSize: 36 },
   starSelected: { color: '#FFD700' },
   starUnselected: { color: '#333' },
-
-  // Acquisition Source Selector Elements Styles
   sourceContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, width: '100%', marginBottom: 25 },
   sourceChip: { backgroundColor: '#1e1e1e', paddingVertical: 8, paddingHorizontal: 14, borderRadius: 20, borderWidth: 1, borderColor: '#333' },
   activeSourceChip: { backgroundColor: '#1DB954', borderColor: '#1DB954' },
@@ -213,5 +218,7 @@ const styles = StyleSheet.create({
   successText: { color: '#1DB954' },
   errorText: { color: '#ff4444' },
   button: { backgroundColor: '#1DB954', padding: 15, borderRadius: 8, alignItems: 'center', height: 50, justifyContent: 'center', width: '100%' },
-  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 }
+  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
+  counterContainer: { width: '100%', alignItems: 'flex-end', marginTop: 4, paddingRight: 5 },
+  counterText: { color: '#666', fontSize: 12, fontWeight: '500' },
 });

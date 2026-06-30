@@ -6,7 +6,7 @@ export default function AboutScreen() {
     <ScrollView style={styles.outerContainer} contentContainerStyle={styles.container}>
       <View style={styles.headerBlock}>
         <Text style={styles.title}>B-Side</Text>
-        <Text style={styles.versionBadge}>v1.0.0</Text>
+        <Text style={styles.versionBadge}>v1.0.1</Text>
         <TouchableOpacity 
           onPress={() => Linking.openURL('https://github.com/Danial-Syahrum/B-Side')}
           activeOpacity={0.7}
